@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Change animeunity page titles
 // @namespace    https://github.com/DarkNio88/scripttampermonkey
-// @version      0.3
+// @version      0.1
 // @description  Changes titles of animeunity pages
 // @author       DarkNio
 // @match        https://www.animeunity.to/*
