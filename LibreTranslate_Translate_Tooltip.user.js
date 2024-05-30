@@ -11,7 +11,8 @@
 // @grant       GM_setValue
 // @grant       GM_xmlhttpRequest 
 // ==/UserScript==
-var urlt="http://127.0.0.1:5000/translate";
+
+var urlt="https://translate.darknio.ovh/translate";
 if ( typeof DEBUG === 'undefined' ) DEBUG = true;
 
 const TTS_ICON = 'data:image/png;base64,' +
@@ -358,7 +359,7 @@ $settingButton.click(function () {
 });
 
 $linkButton.click(function () {
-    window.open('http://127.0.0.1:5000/translate/#' +
+    window.open(urlt+'/#' +
         encodeURIComponent( GM_getValue('sl') || 'auto' ) + '/' +
         encodeURIComponent( GM_getValue('tl') || 'auto' ) + '/' +
         encodeURIComponent( selectedText ), '_blank');
