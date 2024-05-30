@@ -4,7 +4,7 @@
 // @version     1.10
 // @description Translates selected text into a tooltip.
 // @license     GPL version 3 or any later version; http://www.gnu.org/copyleft/gpl.html
-// @copyright   2014, darknio 
+// @copyright   2024, darknio 
 // @include     *
 // @require     http://code.jquery.com/jquery-2.1.0.min.js
 // @grant       GM_getValue
