@@ -530,6 +530,7 @@ function translate(text, left, top) {
                 return;
             }
             log('Translated JSON', json);
+            translation.push( $('<div>').text( json.translatedText ) );
             if ( translation.length === 0 ) {
                 $tooltip.display(false);
                 return;
