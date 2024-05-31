@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        LibreTranslate Translate Tooltip
+// @name        Libre Translate Tooltip
 // @namespace   DarkNio
 // @version     1.10
 // @description Translates selected text into a tooltip.
