@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Libre Translate Tooltip
 // @namespace   DarkNio
-// @version     1.10
+// @version     1.0
 // @description Translates selected text into a tooltip.
 // @license     GPL version 3 or any later version; http://www.gnu.org/copyleft/gpl.html
 // @copyright   2024, darknio 
