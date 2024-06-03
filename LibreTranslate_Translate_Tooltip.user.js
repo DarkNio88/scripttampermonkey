@@ -13,6 +13,8 @@
 // ==/UserScript==
 
 var urlt="https://translate.darknio.ovh/translate";
+var urltts="http://127.0.0.1:7851/api/tts-generate";
+var voice="female_06.wav";
 if ( typeof DEBUG === 'undefined' ) DEBUG = true;
 
 const TTS_ICON = 'data:image/png;base64,' +
@@ -441,7 +443,7 @@ function getSelection() {
     }
     return null;
 }
-//https://github.com/erew123/alltalk_tts
+
 function tts(audioContext, targetLang, text, onSuccess, retry) {
     if (!( audioContext instanceof AudioContext ) ||
         ( typeof targetLang !== 'string' ) ||
@@ -462,13 +464,13 @@ function tts(audioContext, targetLang, text, onSuccess, retry) {
         "Content-Type": "application/x-www-form-urlencoded"
         },
         overrideMimeType: "text/plain; charset=x-user-defined",
-        url: "http://127.0.0.1:7851/api/tts-generate",
+        url: urltts,
         data: $.param({
                 text_input: text,
                 text_filtering: "standard",
-                character_voice_gen: "female_06.wav",
+                character_voice_gen: voice,
                 narrator_enabled:true,
-                narrator_voice_gen:"female_06.wav",
+                narrator_voice_gen:voice,
                 text_not_inside:"character",
                 language:targetLang,
                 output_file_name:"myoutputfile",
@@ -482,7 +484,7 @@ function tts(audioContext, targetLang, text, onSuccess, retry) {
 
             log('TTS length', length);
 
-            // retry if return empty response
+            // retry if google return empty response
             if ( length == 0 ) {
                 if ( +retry > 0 ) {
                     tts( audioContext, targetLang, text, onSuccess, retry - 1 );
