@@ -4,7 +4,7 @@
 // @version     1.0
 // @description Translates selected text into a tooltip.
 // @license     GPL version 3 or any later version; http://www.gnu.org/copyleft/gpl.html
-// @copyright   2024, darknio 
+// @copyright   2024, darknio
 // @include     *
 // @require     http://code.jquery.com/jquery-2.1.0.min.js
 // @grant       GM_getValue
@@ -413,7 +413,7 @@ function getSelection() {
         docElem = document.documentElement,
         left = window.scrollX - docElem.clientLeft,
         top = window.scrollY - docElem.clientTop;
-    
+
     if (selection.toString()) {
         var rect = selection.getRangeAt(0).getBoundingClientRect();
         return {
@@ -422,7 +422,7 @@ function getSelection() {
             y: top + rect.bottom
         };
     }
-    
+
     var $input = $(':focus').filter('input, textarea');
     if ($input.length && $input.val() &&
         'selectionStart' in $input[0] &&
@@ -432,7 +432,6 @@ function getSelection() {
             $input[0].selectionStart,
             $input[0].selectionEnd
         );
-        
         var rect = $input[0].getBoundingClientRect();
         return {
             text: text,
@@ -442,7 +441,7 @@ function getSelection() {
     }
     return null;
 }
-
+//https://github.com/erew123/alltalk_tts
 function tts(audioContext, targetLang, text, onSuccess, retry) {
     if (!( audioContext instanceof AudioContext ) ||
         ( typeof targetLang !== 'string' ) ||
@@ -457,15 +456,25 @@ function tts(audioContext, targetLang, text, onSuccess, retry) {
     }
 
     GM_xmlhttpRequest({
-        method: "GET",
+        method: "POST",
         // use 8-bit no conversion encode
+        headers:    {
+        "Content-Type": "application/x-www-form-urlencoded"
+        },
         overrideMimeType: "text/plain; charset=x-user-defined",
-        url: "https://translate.google.com/translate_tts?" +
-            $.param({
-                client: 't',
-                tl: targetLang,
-                ie: 'UTF-8',
-                q: text
+        url: "http://127.0.0.1:7851/api/tts-generate",
+        data: $.param({
+                text_input: text,
+                text_filtering: "standard",
+                character_voice_gen: "female_06.wav",
+                narrator_enabled:true,
+                narrator_voice_gen:"female_06.wav",
+                text_not_inside:"character",
+                language:targetLang,
+                output_file_name:"myoutputfile",
+                output_file_timestamp:true,
+                autoplay:true,
+                autoplay_volume:1.0,
             }),
         onload: function (response) {
             var length = response.responseText.length,
@@ -473,7 +482,7 @@ function tts(audioContext, targetLang, text, onSuccess, retry) {
 
             log('TTS length', length);
 
-            // retry if google return empty response
+            // retry if return empty response
             if ( length == 0 ) {
                 if ( +retry > 0 ) {
                     tts( audioContext, targetLang, text, onSuccess, retry - 1 );
@@ -484,7 +493,7 @@ function tts(audioContext, targetLang, text, onSuccess, retry) {
             for ( var i = 0; i < length; i++ ) {
                 buffer[i] = response.responseText.charCodeAt(i);
             }
-            
+
             audioContext.decodeAudioData(
                 buffer.buffer, 
                 function (buffer) {
@@ -531,12 +540,13 @@ function translate(text, left, top) {
             }
             log('Translated JSON', json);
             translation.push( $('<div>').text( json.translatedText ) );
+
             if ( translation.length === 0 ) {
                 $tooltip.display(false);
                 return;
             }
             $tooltip.find('.translation').empty().append( translation ).end().width('auto');
-            tts( audioContext, json.translatedText, text, function (buffer) {
+            tts( audioContext, GM_getValue('tl'), json.translatedText, function (buffer) {
                 audioBuffer = buffer;
                 $ttsButton.toggle(true);
             } );
