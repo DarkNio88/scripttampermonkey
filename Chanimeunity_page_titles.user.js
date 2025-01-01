@@ -4,7 +4,7 @@
 // @version      0.1
 // @description  Changes titles of animeunity pages
 // @author       DarkNio
-// @match        https://www.animeunity.to/*
+// @include      https://*.animeunity.*/*
 // @icon         https://www.animeunity.to/favicon-32x32.png
 // @updateURL    https://github.com/DarkNio88/scripttampermonkey/raw/main/Chanimeunity_page_titles.user.js
 // @downloadURL  https://github.com/DarkNio88/scripttampermonkey/raw/main/Chanimeunity_page_titles.user.js
